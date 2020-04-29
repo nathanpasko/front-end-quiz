@@ -2,12 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Nathan Pasko » Front End Dev Quiz</title>
+  <title>Nathan Pasko | Front End Dev Quiz</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="author" content="Nathan Pasko">
   <meta name="description" content="Front end development skills quiz for Aramis/PushPros completed by Nathan Pasko">
   <!-- Bootstrap stylesheet -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <!-- My styles -->
   <style>
   	h1 {
   		margin-top: 1rem;
@@ -41,7 +42,6 @@
 		    </tr>
 		  </thead>
 		  <tbody id="table-body">
-		    
 		  </tbody>
 		</table>
 	</div>
@@ -58,9 +58,11 @@
 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script> 	
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+	<!-- Fetch script to populate table -->
 	<script>
+		// URL to fetch data from
 		const url = 'https://aimtell.com/files/sites.json';
-
+		// Function to fetch data from server
 		var loadData = () => {
 			fetch(url)
 			.then((res) => res.json())
@@ -72,12 +74,16 @@
 				console.log(err);
 			});
 		}
+		// Function to populate table with data
 		var populateTable = (data) => {
 			var tableBody = document.querySelector('#table-body');
+			// Clear table if it's not empty
 			if (tableBody.children.length > 1) {
 				clearTable();
 			}
+			// Add a row for each entry of data
 			data.forEach((entry) => {
+				// Create and set up elements
 				var tr = document.createElement('tr');
 				var id = document.createElement('th');
 				id.innerHTML = entry.id;
@@ -86,12 +92,14 @@
 				name.innerHTML = entry.name;
 				var url = document.createElement('td');
 				url.innerHTML = entry.url;
+				// Put everything together
 				tr.appendChild(id);
 				tr.appendChild(name);
 				tr.appendChild(url);
 				tableBody.appendChild(tr);
 			});
 		}
+		// Function to clear table
 		var clearTable = () => {
 			var array = Array.from(tableBody.children);
 			array.forEach((child) => {
