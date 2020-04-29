@@ -8,6 +8,20 @@
   <meta name="description" content="Front end development skills quiz for Aramis/PushPros completed by Nathan Pasko">
   <!-- Bootstrap stylesheet -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <style>
+  	h1 {
+  		margin-top: 1rem;
+  	}
+  	p, ul {
+  		max-width: 700px;
+  		margin-top: 1rem;
+  		font-size: .8rem;
+  	}
+  	button {
+  		margin-top: 1rem;
+  		margin-bottom: 1rem;
+  	}
+  </style>
 </head>
 <body>
 	<div class="container">
@@ -17,7 +31,7 @@
 		<p>Nathan Pasko is a dedicated designer and developer. After several years of surfing contract to contract as a freelancer, Nathan is seeking full-time employment doing what he loves: writing semantic HTML, CSS, and JavaScript to build responsive, accessible, and creative web solutions.</p>
 	</div>
 	<div class="container">
-		<button>Load Data</button>
+		<button id="load-button" type="button" class="btn btn-primary">Load Data</button>
 		<table class="table">
 		  <thead>
 		    <tr>
@@ -26,12 +40,8 @@
 		      <th scope="col">URL</th>
 		    </tr>
 		  </thead>
-		  <tbody>
-		    <tr>
-		      <th scope="row">1</th>
-		      <td>name</td>
-		      <td>url</td>
-		    </tr>
+		  <tbody id="table-body">
+		    
 		  </tbody>
 		</table>
 	</div>
@@ -45,8 +55,51 @@
 	</footer>
 
 	<!-- Bootstrap dependencies -->
-	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script> 	
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+	<script>
+		const url = 'https://aimtell.com/files/sites.json';
+
+		var loadData = () => {
+			fetch(url)
+			.then((res) => res.json())
+			.then((json) => {
+				var sites = json.sites;
+				populateTable(sites);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+		}
+		var populateTable = (data) => {
+			var tableBody = document.querySelector('#table-body');
+			if (tableBody.children.length > 1) {
+				clearTable();
+			}
+			data.forEach((entry) => {
+				var tr = document.createElement('tr');
+				var id = document.createElement('th');
+				id.innerHTML = entry.id;
+				id.setAttribute('scope', 'col');
+				var name = document.createElement('td');
+				name.innerHTML = entry.name;
+				var url = document.createElement('td');
+				url.innerHTML = entry.url;
+				tr.appendChild(id);
+				tr.appendChild(name);
+				tr.appendChild(url);
+				tableBody.appendChild(tr);
+			});
+		}
+		var clearTable = () => {
+			var array = Array.from(tableBody.children);
+			array.forEach((child) => {
+				child.remove();
+			});
+		}
+
+		document.querySelector('#load-button').addEventListener('click', loadData);
+	</script>
 </body>
 </html>
